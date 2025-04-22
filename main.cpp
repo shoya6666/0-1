@@ -1,7 +1,7 @@
 #include <Novice.h>
 #include<Vector3.h>
 #include<math.h>
-
+//a
 const char kWindowTitle[] = "GC1C_08_タナカ_ショウヤ_タイトル";
 const int kWindowWidth = 1280;
 const int kWindowHeight = 720;
