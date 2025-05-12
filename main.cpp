@@ -1,93 +1,199 @@
 #include <Novice.h>
 #include<Vector3.h>
 #include<math.h>
-//a
+#include<Matrix4x4.h>
+#include <assert.h>
+
 const char kWindowTitle[] = "GC1C_08_タナカ_ショウヤ_タイトル";
 const int kWindowWidth = 1280;
 const int kWindowHeight = 720;
 
-//加算
-Vector3 add(const Vector3& v1, const Vector3& v2) {
-	Vector3 result;
-	result.x = v1.x + v2.x;
-	result.y = v1.y + v2.y;
-	result.z = v1.z + v2.z;
+//1, 行列の加法
+Matrix4x4 Add(const Matrix4x4& m1, const Matrix4x4& m2) {
+	Matrix4x4 result;
+
+	result.m[0][0] = m1.m[0][0] + m2.m[0][0];
+	result.m[0][1] = m1.m[0][1] + m2.m[0][1];
+	result.m[0][2] = m1.m[0][2] + m2.m[0][2];
+	result.m[0][3] = m1.m[0][3] + m2.m[0][3];
+	result.m[1][0] = m1.m[1][0] + m2.m[1][0];
+	result.m[1][1] = m1.m[1][1] + m2.m[1][1];
+	result.m[1][2] = m1.m[1][2] + m2.m[1][2];
+	result.m[1][3] = m1.m[1][3] + m2.m[1][3];
+	result.m[2][0] = m1.m[2][0] + m2.m[2][0];
+	result.m[2][1] = m1.m[2][1] + m2.m[2][1];
+	result.m[2][2] = m1.m[2][2] + m2.m[2][2];
+	result.m[2][3] = m1.m[2][3] + m2.m[2][3];
+	result.m[3][0] = m1.m[3][0] + m2.m[3][0];
+	result.m[3][1] = m1.m[3][1] + m2.m[3][1];
+	result.m[3][2] = m1.m[3][2] + m2.m[3][2];
+	result.m[3][3] = m1.m[3][3] + m2.m[3][3];
 
 	return result;
 }
-//減算
-Vector3 Subtract(const Vector3& v1, const Vector3& v2) {
-	Vector3 result;
-	result.x = v1.x - v2.x;
-	result.y = v1.y - v2.y;
-	result.z = v1.z - v2.z;
+//2, 行列の減法
+Matrix4x4 Subtruct(const Matrix4x4& m1, const Matrix4x4& m2) {
+	Matrix4x4 result;
+
+	result.m[0][0] = m1.m[0][0] - m2.m[0][0];
+	result.m[0][1] = m1.m[0][1] - m2.m[0][1];
+	result.m[0][2] = m1.m[0][2] - m2.m[0][2];
+	result.m[0][3] = m1.m[0][3] - m2.m[0][3];
+
+	result.m[1][0] = m1.m[1][0] - m2.m[1][0];
+	result.m[1][1] = m1.m[1][1] - m2.m[1][1];
+	result.m[1][2] = m1.m[1][2] - m2.m[1][2];
+	result.m[1][3] = m1.m[1][3] - m2.m[1][3];
+
+	result.m[2][0] = m1.m[2][0] - m2.m[2][0];
+	result.m[2][1] = m1.m[2][1] - m2.m[2][1];
+	result.m[2][2] = m1.m[2][2] - m2.m[2][2];
+	result.m[2][3] = m1.m[2][3] - m2.m[2][3];
+
+	result.m[3][0] = m1.m[3][0] - m2.m[3][0];
+	result.m[3][1] = m1.m[3][1] - m2.m[3][1];
+	result.m[3][2] = m1.m[3][2] - m2.m[3][2];
+	result.m[3][3] = m1.m[3][3] - m2.m[3][3];
 
 	return result;
 }
-//スカラー倍
-Vector3 Multiply(float scalar, const Vector3& v) {
-	Vector3 result;
-	result.x = scalar * v.x;
-	result.y = scalar * v.y;
-	result.z = scalar * v.z;
+//3, 行列の積
+Matrix4x4 Multiply(const Matrix4x4& m1, const Matrix4x4& m2) {
+	Matrix4x4 result;
+
+	result.m[0][0] = m1.m[0][0] * m2.m[0][0] + m1.m[0][1] * m2.m[1][0] + m1.m[0][2] * m2.m[2][0] + m1.m[0][3] * m2.m[3][0];
+	result.m[0][1] = m1.m[0][0] * m2.m[0][1] + m1.m[0][1] * m2.m[1][1] + m1.m[0][2] * m2.m[2][1] + m1.m[0][3] * m2.m[3][1];
+	result.m[0][2] = m1.m[0][0] * m2.m[0][2] + m1.m[0][1] * m2.m[1][2] + m1.m[0][2] * m2.m[2][2] + m1.m[0][3] * m2.m[3][2];
+	result.m[0][3] = m1.m[0][0] * m2.m[0][3] + m1.m[0][1] * m2.m[1][3] + m1.m[0][2] * m2.m[2][3] + m1.m[0][3] * m2.m[3][3];
+
+	result.m[1][0] = m1.m[1][0] * m2.m[0][0] + m1.m[1][1] * m2.m[1][0] + m1.m[1][2] * m2.m[2][0] + m1.m[1][3] * m2.m[3][0];
+	result.m[1][1] = m1.m[1][0] * m2.m[0][1] + m1.m[1][1] * m2.m[1][1] + m1.m[1][2] * m2.m[2][1] + m1.m[1][3] * m2.m[3][1];
+	result.m[1][2] = m1.m[1][0] * m2.m[0][2] + m1.m[1][1] * m2.m[1][2] + m1.m[1][2] * m2.m[2][2] + m1.m[1][3] * m2.m[3][2];
+	result.m[1][3] = m1.m[1][0] * m2.m[0][3] + m1.m[1][1] * m2.m[1][3] + m1.m[1][2] * m2.m[2][3] + m1.m[1][3] * m2.m[3][3];
+
+	result.m[2][0] = m1.m[2][0] * m2.m[0][0] + m1.m[2][1] * m2.m[1][0] + m1.m[2][2] * m2.m[2][0] + m1.m[2][3] * m2.m[3][0];
+	result.m[2][1] = m1.m[2][0] * m2.m[0][1] + m1.m[2][1] * m2.m[1][1] + m1.m[2][2] * m2.m[2][1] + m1.m[2][3] * m2.m[3][1];
+	result.m[2][2] = m1.m[2][0] * m2.m[0][2] + m1.m[2][1] * m2.m[1][2] + m1.m[2][2] * m2.m[2][2] + m1.m[2][3] * m2.m[3][2];
+	result.m[2][3] = m1.m[2][0] * m2.m[0][3] + m1.m[2][1] * m2.m[1][3] + m1.m[2][2] * m2.m[2][3] + m1.m[2][3] * m2.m[3][3];
+
+	result.m[3][0] = m1.m[3][0] * m2.m[0][0] + m1.m[3][1] * m2.m[1][0] + m1.m[3][2] * m2.m[2][0] + m1.m[3][3] * m2.m[3][0];
+	result.m[3][1] = m1.m[3][0] * m2.m[0][1] + m1.m[3][1] * m2.m[1][1] + m1.m[3][2] * m2.m[2][1] + m1.m[3][3] * m2.m[3][1];
+	result.m[3][2] = m1.m[3][0] * m2.m[0][2] + m1.m[3][1] * m2.m[1][2] + m1.m[3][2] * m2.m[2][2] + m1.m[3][3] * m2.m[3][2];
+	result.m[3][3] = m1.m[3][0] * m2.m[0][3] + m1.m[3][1] * m2.m[1][3] + m1.m[3][2] * m2.m[2][3] + m1.m[3][3] * m2.m[3][3];
+	return result;
+}
+//4, 逆行列
+Matrix4x4 Inverse(const Matrix4x4& m) {
+	Matrix4x4 result;
+	float A;
+
+	A = m.m[0][0] * m.m[1][1] * m.m[2][2] * m.m[3][3] + m.m[0][0] * m.m[1][2] * m.m[2][3] * m.m[3][1] + m.m[0][0] * m.m[1][3] * m.m[2][1] * m.m[3][2]
+		- m.m[0][0] * m.m[1][3] * m.m[2][2] * m.m[3][1] - m.m[0][0] * m.m[1][2] * m.m[2][1] * m.m[3][3] - m.m[0][0] * m.m[1][1] * m.m[2][3] * m.m[3][2]
+		- m.m[0][1] * m.m[1][0] * m.m[2][2] * m.m[3][3] - m.m[0][2] * m.m[1][0] * m.m[2][3] * m.m[3][1] - m.m[0][3] * m.m[1][0] * m.m[2][1] * m.m[3][2]
+		+ m.m[0][3] * m.m[1][0] * m.m[2][2] * m.m[3][1] + m.m[0][2] * m.m[1][0] * m.m[2][1] * m.m[3][3] + m.m[0][1] * m.m[1][0] * m.m[2][3] * m.m[3][2]
+		+ m.m[0][1] * m.m[1][2] * m.m[2][0] * m.m[3][3] + m.m[0][2] * m.m[1][3] * m.m[2][0] * m.m[3][1] + m.m[0][3] * m.m[1][1] * m.m[2][0] * m.m[3][2]
+		- m.m[0][3] * m.m[1][2] * m.m[2][0] * m.m[3][1] - m.m[0][2] * m.m[1][1] * m.m[2][0] * m.m[3][3] - m.m[0][1] * m.m[1][3] * m.m[2][0] * m.m[3][2]
+		- m.m[0][1] * m.m[1][2] * m.m[2][3] * m.m[3][0] - m.m[0][2] * m.m[1][3] * m.m[2][1] * m.m[3][0] - m.m[0][3] * m.m[1][1] * m.m[2][2] * m.m[3][0]
+		+ m.m[0][3] * m.m[1][2] * m.m[2][1] * m.m[3][0] + m.m[0][2] * m.m[1][1] * m.m[2][3] * m.m[3][0] + m.m[0][1] * m.m[1][3] * m.m[2][2] * m.m[3][0];
+
+	assert(A != 0.0f);
+	float resultA = 1.0f / A;
+
+	result.m[0][0] = (m.m[1][1] * m.m[2][2] * m.m[3][3] + m.m[1][2] * m.m[2][3] * m.m[3][1] + m.m[1][3] * m.m[2][1] * m.m[3][2]
+		- m.m[1][3] * m.m[2][2] * m.m[3][1] - m.m[1][2] * m.m[2][1] * m.m[3][3] - m.m[1][1] * m.m[2][3] * m.m[3][2]) * resultA;
+	result.m[0][1] = (-m.m[0][1] * m.m[2][2] * m.m[3][3] - m.m[0][2] * m.m[2][3] * m.m[3][1] - m.m[0][3] * m.m[2][1] * m.m[3][2]
+		+ m.m[0][3] * m.m[2][2] * m.m[3][1] + m.m[0][2] * m.m[2][1] * m.m[3][3] + m.m[0][1] * m.m[2][3] * m.m[3][2]) * resultA;
+	result.m[0][2] = (m.m[0][1] * m.m[1][2] * m.m[3][3] + m.m[0][2] * m.m[1][3] * m.m[3][1] + m.m[0][3] * m.m[1][1] * m.m[3][2]
+		- m.m[0][3] * m.m[1][2] * m.m[3][1] - m.m[0][2] * m.m[1][1] * m.m[3][3] - m.m[0][1] * m.m[1][3] * m.m[3][2]) * resultA;
+	result.m[0][3] = (-m.m[0][1] * m.m[1][2] * m.m[2][3] - m.m[0][2] * m.m[1][3] * m.m[2][1] - m.m[0][3] * m.m[1][1] * m.m[2][2]
+		+ m.m[0][3] * m.m[1][2] * m.m[2][1] + m.m[0][2] * m.m[1][1] * m.m[2][3] + m.m[0][1] * m.m[1][3] * m.m[2][2]) * resultA;
+
+	result.m[1][0] = (-m.m[1][0] * m.m[2][2] * m.m[3][3] - m.m[1][2] * m.m[2][3] * m.m[3][0] - m.m[1][3] * m.m[2][0] * m.m[3][2]
+		+ m.m[1][3] * m.m[2][2] * m.m[3][0] + m.m[1][2] * m.m[2][0] * m.m[3][3] + m.m[1][0] * m.m[2][3] * m.m[3][2]) * resultA;
+	result.m[1][1] = (m.m[0][0] * m.m[2][2] * m.m[3][3] + m.m[0][2] * m.m[2][3] * m.m[3][0] + m.m[0][3] * m.m[2][0] * m.m[3][2]
+		- m.m[0][3] * m.m[2][2] * m.m[3][0] - m.m[0][2] * m.m[2][0] * m.m[3][3] - m.m[0][0] * m.m[2][3] * m.m[3][2]) * resultA;
+	result.m[1][2] = (-m.m[0][0] * m.m[1][2] * m.m[3][3] - m.m[0][2] * m.m[1][3] * m.m[3][0] - m.m[0][3] * m.m[1][0] * m.m[3][2]
+		+ m.m[0][3] * m.m[1][2] * m.m[3][0] + m.m[0][2] * m.m[1][0] * m.m[3][3] + m.m[0][0] * m.m[1][3] * m.m[3][2]) * resultA;
+	result.m[1][3] = (m.m[0][0] * m.m[1][2] * m.m[2][3] + m.m[0][2] * m.m[1][3] * m.m[2][0] + m.m[0][3] * m.m[1][0] * m.m[2][2]
+		- m.m[0][3] * m.m[1][2] * m.m[2][0] - m.m[0][2] * m.m[1][0] * m.m[2][3] - m.m[0][0] * m.m[1][3] * m.m[2][2]) * resultA;
+
+	result.m[2][0] = (m.m[1][0] * m.m[2][1] * m.m[3][3] + m.m[1][1] * m.m[2][3] * m.m[3][0] + m.m[1][3] * m.m[2][0] * m.m[3][1]
+		- m.m[1][3] * m.m[2][1] * m.m[3][0] - m.m[1][1] * m.m[2][0] * m.m[3][3] - m.m[1][0] * m.m[2][3] * m.m[3][1]) * resultA;
+	result.m[2][1] = (-m.m[0][0] * m.m[2][1] * m.m[3][3] - m.m[0][1] * m.m[2][3] * m.m[3][0] - m.m[0][3] * m.m[2][0] * m.m[3][1]
+		+ m.m[0][3] * m.m[2][1] * m.m[3][0] + m.m[0][1] * m.m[2][0] * m.m[3][3] + m.m[0][0] * m.m[2][3] * m.m[3][1]) * resultA;
+	result.m[2][2] = (m.m[0][0] * m.m[1][1] * m.m[3][3] + m.m[0][1] * m.m[1][3] * m.m[3][0] + m.m[0][3] * m.m[1][0] * m.m[3][1]
+		- m.m[0][3] * m.m[1][1] * m.m[3][0] - m.m[0][1] * m.m[1][0] * m.m[3][3] - m.m[0][0] * m.m[1][3] * m.m[3][1]) * resultA;
+	result.m[2][3] = (-m.m[0][0] * m.m[1][1] * m.m[2][3] - m.m[0][1] * m.m[1][3] * m.m[2][0] - m.m[0][3] * m.m[1][0] * m.m[2][1]
+		+ m.m[0][3] * m.m[1][1] * m.m[2][0] + m.m[0][1] * m.m[1][0] * m.m[2][3] + m.m[0][0] * m.m[1][3] * m.m[2][1]) * resultA;
+
+	result.m[3][0] = (-m.m[1][0] * m.m[2][1] * m.m[3][2] - m.m[1][1] * m.m[2][2] * m.m[3][0] - m.m[1][2] * m.m[2][0] * m.m[3][1]
+		+ m.m[1][2] * m.m[2][1] * m.m[3][0] + m.m[1][1] * m.m[2][0] * m.m[3][2] + m.m[1][0] * m.m[2][2] * m.m[3][1]) * resultA;
+	result.m[3][1] = (m.m[0][0] * m.m[2][1] * m.m[3][2] + m.m[0][1] * m.m[2][2] * m.m[3][0] + m.m[0][2] * m.m[2][0] * m.m[3][1]
+		- m.m[0][2] * m.m[2][1] * m.m[3][0] - m.m[0][1] * m.m[2][0] * m.m[3][2] - m.m[0][0] * m.m[2][2] * m.m[3][1]) * resultA;
+	result.m[3][2] = (-m.m[0][0] * m.m[1][1] * m.m[3][2] - m.m[0][1] * m.m[1][2] * m.m[3][0] - m.m[0][2] * m.m[1][0] * m.m[3][1]
+		+ m.m[0][2] * m.m[1][1] * m.m[3][0] + m.m[0][1] * m.m[1][0] * m.m[3][2] + m.m[0][0] * m.m[1][2] * m.m[3][1]) * resultA;
+	result.m[3][3] = (m.m[0][0] * m.m[1][1] * m.m[2][2] + m.m[0][1] * m.m[1][2] * m.m[2][0] + m.m[0][2] * m.m[1][0] * m.m[2][1]
+		- m.m[0][2] * m.m[1][1] * m.m[2][0] - m.m[0][1] * m.m[1][0] * m.m[2][2] - m.m[0][0] * m.m[1][2] * m.m[2][1]) * resultA;
 
 	return result;
 }
-//内積
-float Dot(const Vector3& v1, const Vector3& v2) {
-	float result;
-	result = v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
-
-	return result;
-}
-//長さ（ノルム）
-float Length(const Vector3& v) {
-	float result;
-	result = sqrtf(v.x * v.x + v.y * v.y + v.z * v.z);
-
-	return result;
-}
-//正規化
-Vector3 Normalize(const Vector3& v) {
-	float length = Length(v);
-
-	if (length != 0) {
-		return { v.x / length,v.y / length,v.z / length };
+//5, 転置行列
+Matrix4x4 Transpose(const Matrix4x4& m) {
+	Matrix4x4 result;
+	for (int i = 0; i < 4; ++i) {
+		for (int j = 0; j < 4; ++j) {
+			result.m[j][i] = m.m[i][j];
+		}
 	}
-	return v;
+	return result;
+}
+//6, 単位行列の作成
+Matrix4x4 MakeIdentity4x4() {
+	return{ 1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1 };
 }
 
-static const int kColumnWidth = 60;
-void VectorScreenPrintf(int x, int y, const Vector3& vector, const char* label) {
-	Novice::ScreenPrintf(x, y, "%.02f", vector.x);
-	Novice::ScreenPrintf(x + kColumnWidth, y, "%.02f", vector.y);
-	Novice::ScreenPrintf(x + kColumnWidth * 2, y, "%.02f", vector.z);
-	Novice::ScreenPrintf(x + kColumnWidth * 3, y, "%s", label);
-
+static const int kRowHeight = 20;
+static const int kColumnWindth = 60;
+void MatrixScreenPrintf(int x, int y, const Matrix4x4& matrix, const char* label) {
+	for (int row = 0; row < 4; ++row) {
+		for (int column = 0; column < 4; ++column) {
+			Novice::ScreenPrintf(x + column * kColumnWindth, y + row * kRowHeight, "%6.02f", matrix.m[row][column], label);
+		}
+	}
 }
 
-Vector3 v1{ 1.0f,3.0f,-5.0f };
-Vector3 v2{ 4.0f,-1.0f,2.0f };
-float k = { 4.0f };
+Matrix4x4 m1 = {
+	3.2f,0.7f,9.6f,4.4f,
+	5.5f,1.3f,7.8f,2.1f,
+	6.9f,8.0f,2.6f,1.0f,
+	0.5f,7.2f,5.1f,3.3f
+};
 
-Vector3 resultAdd = add(v1, v2);
-Vector3 resultSubtract = Subtract(v1, v2);
-Vector3 resultMultiply = Multiply(k, v1);
-float resultDot = Dot(v1, v2);
-float resultLength = Length(v1);
-Vector3 resultNormalize = Normalize(v2);
+Matrix4x4 m2 = {
+	4.1f,6.5f,3.3f,2.2f,
+	8.8f,0.6f,9.9f,7.7f,
+	1.1f,5.5f,6.6f,0.0f,
+	3.3f,9.9f,8.8f,2.2f
+};
 
-const int kRowHeight = 15;
+Matrix4x4 resultAdd = Add(m1, m2);
+Matrix4x4 resultMultiply = Multiply(m1, m2);
+Matrix4x4 resultSubtract = Subtruct(m1, m2);
+Matrix4x4 inverseM1 = Inverse(m1);
+Matrix4x4 inverseM2 = Inverse(m2);
+Matrix4x4 transposeM1 = Transpose(m1);
+Matrix4x4 transposeM2 = Transpose(m2);
+Matrix4x4 identity = MakeIdentity4x4();
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	// ライブラリの初期化
-	Novice::Initialize(kWindowTitle, kWindowWidth, kWindowHeight);
+	Novice::Initialize(kWindowTitle, 1280, 720);
 
 	// キー入力結果を受け取る箱
-	char keys[256] = {0};
-	char preKeys[256] = {0};
+	char keys[256] = { 0 };
+	char preKeys[256] = { 0 };
 
 	// ウィンドウの×ボタンが押されるまでループ
 	while (Novice::ProcessMessage() == 0) {
@@ -102,8 +208,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		/// ↓更新処理ここから
 		///
 
-
-
 		///
 		/// ↑更新処理ここまで
 		///
@@ -112,13 +216,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		/// ↓描画処理ここから
 		///
 
-		VectorScreenPrintf(0, 0, resultAdd, " :Add");
-		VectorScreenPrintf(0, kRowHeight, resultSubtract, " :Subtract");
-		VectorScreenPrintf(0, kRowHeight * 2, resultMultiply, " :Multiply");
-		Novice::ScreenPrintf(0, kRowHeight * 3, "%.02f :Dot", resultDot);
-		Novice::ScreenPrintf(0, kRowHeight * 4, "%.02f :Length", resultLength);
-		VectorScreenPrintf(0, kRowHeight * 5,resultNormalize, " :Normalize");
-		
+		MatrixScreenPrintf(0, 0, resultAdd, "Add");
+		MatrixScreenPrintf(0, kRowHeight * 5, resultSubtract, "Subtract");
+		MatrixScreenPrintf(0, kRowHeight * 5 * 2, resultMultiply, "Multiply");
+		MatrixScreenPrintf(0, kRowHeight * 5 * 3, inverseM1, "inverseM1");
+		MatrixScreenPrintf(0, kRowHeight * 5 * 4, inverseM2, "inverseM2");
+		MatrixScreenPrintf(kColumnWindth * 5, 0, transposeM1, "transposeM1");
+		MatrixScreenPrintf(kColumnWindth * 5, kRowHeight * 5, transposeM2, "transposeM2");
+		MatrixScreenPrintf(kColumnWindth * 5, kRowHeight * 5 * 2, identity, "identity");
 
 		///
 		/// ↑描画処理ここまで
@@ -137,3 +242,4 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Novice::Finalize();
 	return 0;
 }
+
