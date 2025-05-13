@@ -9,13 +9,79 @@ const int kWindowWidth = 1280;
 const int kWindowHeight = 720;
 
 Matrix4x4 MakeRotateXMatrix(float radian) {
+	Matrix4x4 result;
 
+	result.m[0][0] = 1.0f;
+	result.m[0][1] = 0.0f;
+	result.m[0][2] = 0.0f;
+	result.m[0][3] = 0.0f;
+
+	result.m[1][0] = 0.0f;
+	result.m[1][1] = cos(radian);
+	result.m[1][2] = -sin(radian);
+	result.m[1][3] = 0.0f;
+
+	result.m[2][0] = 0.0f;
+	result.m[2][1] = sin(radian);
+	result.m[2][2] = cos(radian);
+	result.m[2][3] = 0.0f;
+
+	result.m[3][0] = 0;
+	result.m[3][1] = 0;
+	result.m[3][2] = 0;
+	result.m[3][3] = 1.0f;
+
+	return result;
 }
 Matrix4x4 MakeRotateYMatrix(float radian) {
+	Matrix4x4 result;
 
+	result.m[0][0] = cos(radian);
+	result.m[0][1] = 0.0f;
+	result.m[0][2] = sin(radian);
+	result.m[0][3] = 0.0f;
+
+	result.m[1][0] = 0.0f;
+	result.m[1][1] = 1;
+	result.m[1][2] = 0.0f;
+	result.m[1][3] = 0.0f;
+
+	result.m[2][0] = -sin(radian);
+	result.m[2][1] = 0;
+	result.m[2][2] = cos(radian);
+	result.m[2][3] = 0.0f;
+
+	result.m[3][0] = 0;
+	result.m[3][1] = 0;
+	result.m[3][2] = 0;
+	result.m[3][3] = 1.0f;
+
+	return result;
 }
 Matrix4x4 MakeRotateZMatrix(float radian) {
+	Matrix4x4 result;
 
+	result.m[0][0] = cos(radian);
+	result.m[0][1] = -sin(radian);
+	result.m[0][2] = 0.0f;
+	result.m[0][3] = 0.0f;
+
+	result.m[1][0] = sin(radian);
+	result.m[1][1] = cos(radian);
+	result.m[1][2] = 0.0f;
+	result.m[1][3] = 0.0f;
+
+	result.m[2][0] = 0.0f;
+	result.m[2][1] = 0.0f;
+	result.m[2][2] = 1.0f;
+	result.m[2][3] = 0.0f;
+
+	result.m[3][0] = 0.0f;
+	result.m[3][1] = 0.0f;
+	result.m[3][2] = 0.0f;
+	result.m[3][3] = 1.0f;
+
+	return result;
 }
 
 
@@ -69,10 +135,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	char preKeys[256] = { 0 };
 
 	Vector3 rotate{ 4.1f,2.6f,0.8f };
-	Matrix4x4 rotateXMtrix = MakeRotateXMatrix(rotateXMtrix.x);
-	Matrix4x4 rotateYMtrix = MakeRotateYMatrix(rotateYMtrix.y);
-	Matrix4x4 rotateZMtrix = MakeRotateZMatrix(rotateZMtrix.z);
-	Matrix4x4 rotateXYZMtrix = Multiply(rotateXMtrix), Multiply(rotateYMtrix), Multiply(rotateZMtrix));
+	Matrix4x4 rotateXMtrix = MakeRotateXMatrix(rotate.x);
+	Matrix4x4 rotateYMtrix = MakeRotateYMatrix(rotate.y);
+	Matrix4x4 rotateZMtrix = MakeRotateZMatrix(rotate.z);
+	Matrix4x4 rotateXYZMtrix = Multiply(rotateXMtrix), Multiply(rotateYMtrix,rotateZMtrix));
 	
 
 	// ウィンドウの×ボタンが押されるまでループ
