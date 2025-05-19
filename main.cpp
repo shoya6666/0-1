@@ -159,7 +159,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	char keys[256] = { 0 };
 	char preKeys[256] = { 0 };
 
-	Vector3 rotate{ 4.1f,2.6f,0.8f };
+	Vector3 rotate{ 0.4f,1.43f,-0.8f };
 	Matrix4x4 rotateXMtrix = MakeRotateXMatrix(rotate.x);
 	Matrix4x4 rotateYMtrix = MakeRotateYMatrix(rotate.y);
 	Matrix4x4 rotateZMtrix = MakeRotateZMatrix(rotate.z);
