@@ -114,48 +114,48 @@ Matrix4x4 Multiply(const Matrix4x4& m1, const Matrix4x4& m2) {
 //正射影行列
 Matrix4x4 MakeOrthographicMatrix(float Left, float top,float right, float bottom, float nearClip, float farClip) {
 	Matrix4x4 result;
-	result.m[0][0] = 2 / right - Left;
+	result.m[0][0] = 2 / (right - Left);
 	result.m[0][1] = 0.0f;
 	result.m[0][2] = 0.0f;
 	result.m[0][3] = 0.0f;
 
 	result.m[1][0] = 0.0f;
-	result.m[1][1] = 2 / top - bottom;
+	result.m[1][1] = 2 / (top - bottom);
 	result.m[1][2] = 0.0f;
 	result.m[1][3] = 0.0f;
 
 	result.m[2][0] = 0.0f;
 	result.m[2][1] = 0.0f;
-	result.m[2][2] = 1 / farClip - nearClip;
+	result.m[2][2] = 1 / (farClip - nearClip);
 	result.m[2][3] = 0.0f;
 
-	result.m[3][0] = Left + right / Left - right;
-	result.m[3][1] = top + bottom / bottom - top;
-	result.m[3][2] = nearClip / nearClip - farClip;
+	result.m[3][0] = (Left + right) / (Left - right);
+	result.m[3][1] = (top + bottom) / (bottom - top);
+	result.m[3][2] = nearClip / (nearClip - farClip);
 	result.m[3][3] = 1.0f;
 	return result;
 }
 //透視投影行列
 Matrix4x4 MakePerspectiveFovMatrix(float fovY, float aspectRatio, float nearClip, float farClip) {
 	Matrix4x4 result;
-	result.m[0][0] = aspectRatio / 1 * 1 / tan(fovY / 2);
+	result.m[0][0] = 1.0f / aspectRatio /( tan(fovY / 2));
 	result.m[0][1] = 0.0f;
 	result.m[0][2] = 0.0f;
 	result.m[0][3] = 0.0f;
 
 	result.m[1][0] = 0.0f;
-	result.m[1][1] = 1 / tan(fovY / 2);
+	result.m[1][1] = 1 / (tan(fovY / 2));
 	result.m[1][2] = 0.0f;
 	result.m[1][3] = 0.0f;
 
 	result.m[2][0] = 0.0f;
 	result.m[2][1] = 0.0f;
-	result.m[2][2] = farClip / farClip - nearClip;
+	result.m[2][2] = farClip / (farClip - nearClip);
 	result.m[2][3] = 1.0f;
 
 	result.m[3][0] = 0.0f;
 	result.m[3][1] = 0.0f;
-	result.m[3][2] = -nearClip * farClip / farClip - nearClip;
+	result.m[3][2] = (- nearClip * farClip) / (farClip - nearClip);
 	result.m[3][3] = 0.0f;
 	return result;
 }
@@ -177,8 +177,8 @@ Matrix4x4 MakeViewportMatrix(float Left, float top, float width, float height, f
 	result.m[2][2] = maxDepth - minDepth;
 	result.m[2][3] = 0.0f;
 
-	result.m[3][0] = Left + width / 2;
-	result.m[3][1] = top + height / 2;
+	result.m[3][0] = (Left + width) / 2;
+	result.m[3][1] = (top + height) / 2;
 	result.m[3][2] = minDepth;
 	result.m[3][3] = 1.0f;
 	return result;
@@ -233,7 +233,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	char keys[256] = { 0 };
 	char preKeys[256] = { 0 };
 
-	Matrix4x4 orthographicMatrix = MakeOrthographicMatrix(-160.f,160.f,200.f,300.f,0.0f,1000.0f);
+	Matrix4x4 orthographicMatrix = MakeOrthographicMatrix(-160.0f,160.0f,200.0f,300.0f,0.0f,1000.0f);
 	Matrix4x4 perspectiveForMatrix = MakePerspectiveFovMatrix(0.63f,1.33f,0.1f,1000.0f);
 	Matrix4x4 viewportMatrix = MakeViewportMatrix(100.f,200.f,600.f,300.f,0.0f,1.0f);
 	
