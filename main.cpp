@@ -177,8 +177,8 @@ Matrix4x4 MakeViewportMatrix(float Left, float top, float width, float height, f
 	result.m[2][2] = maxDepth - minDepth;
 	result.m[2][3] = 0.0f;
 
-	result.m[3][0] = (Left + width) / 2;
-	result.m[3][1] = (top + height) / 2;
+	result.m[3][0] = Left + width / 2;
+	result.m[3][1] = top + height / 2;
 	result.m[3][2] = minDepth;
 	result.m[3][3] = 1.0f;
 	return result;
