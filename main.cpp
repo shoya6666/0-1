@@ -251,6 +251,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///
 		/// ↓更新処理ここから
 		///
+		
+		Matrix4x4 worldMatrix = MakeAffineMatrix();
+		Matrix4x4 cameraMatrix = MakeAffineMatrix();
+		Matrix4x4 viewMatrix = Inveres(cameraMatrix);
+		Matrix4x4 projectionMatrix = MakePerspectiveFovMatrix();
+		//
+		Matrix4x4 worldViewProjectionMatrix = Multiply(worldMatrix, Multiply(viewMatrix, projectionMatrix));
 
 		///
 		/// ↑更新処理ここまで
