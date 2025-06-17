@@ -374,10 +374,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	char keys[256] = { 0 };
 	char preKeys[256] = { 0 };
 
-	Matrix4x4 orthographicMatrix = MakeOrthographicMatrix(-160.0f, 160.0f, 200.0f, 300.0f, 0.0f, 1000.0f);
-	Matrix4x4 perspectiveForMatrix = MakePerspectiveFovMatrix(0.63f, 1.33f, 0.1f, 1000.0f);
-	Matrix4x4 viewportMatrix = MakeViewportMatrix(100.f, 200.f, 600.f, 300.f, 0.0f, 1.0f);
-	Vector3 kLocalVertices[3] = { {10,10,10},{11,11,11},{12,12,12} };
+	Vector3 kLocalVertices[3] = { {0.0f,1.0f,0.0f},{-0.5f,0.0f,0.0f},{0.5f,0.0f,0.0f} };
 	Vector3 v1{ 1.2f,-3.9f,2.5f };
 	Vector3 v2{ 2.8f,0.4f,-1.3f };
 	Vector3 cross = Cross(v1, v2);
@@ -398,6 +395,23 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		/// ↓更新処理ここから
 		///
 		
+		rotate.y += 0.2f;
+
+		if (keys[DIK_W]) {
+			translate.z += 0.2f;
+		}
+
+		if (keys[DIK_D]) {
+			translate.x += 0.2f;
+		}
+
+		if (keys[DIK_A]) {
+			translate.x -= 0.2f;
+		}
+		if (keys[DIK_S]) {
+			translate.z -= 0.2f;
+		}
+
 		Matrix4x4 worldMatrix = MakeAffineMatrix({ 1.0f,1.0f,1.0f }, rotate, translate);
 		Matrix4x4 cameraMatrix = MakeAffineMatrix({1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},cameraPosition);
 		Matrix4x4 viewMatrix = Inverse(cameraMatrix);
@@ -422,10 +436,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///
 		/// ↓描画処理ここから
 		///
-
-		MatrixScreenPrintf(0, 0, orthographicMatrix, "orthographicMatrix");
-		MatrixScreenPrintf(0, kRowHeight * 5, perspectiveForMatrix, "perspectiveForMatrix");
-		MatrixScreenPrintf(0, kRowHeight * 5 * 2, viewportMatrix, "viewportMatrix");
 		
 		VectorScreenPrintf(0,0, cross, "Cross");
 
